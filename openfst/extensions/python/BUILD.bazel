@@ -1,0 +1,237 @@
+# Copyright 2026 The OpenFst Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Provides a Python interface to FST's "script level" API. This exposes nearly
+# all FST features abstracting away from arc type.
+
+load("@cython//Tools:rules.bzl", "pyx_library")
+load("@rules_python//python:py_test.bzl", "py_test")
+
+package(default_visibility = ["//visibility:public"])
+
+# Notes on building Cython with Blaze:
+#
+# .pxd files are Cython headers, .pyx files are Cython code. .pxd files may
+# either refer to "normal" C++ or C++ objects defined in Cython .pyx files.
+# Cython build targets use the pyx_library rule. This creates the equivalent
+# of a py_extension, which can then be imported in the deps section of
+# standard Python rules (py_binary, etc.). If a pyx_library rule includes
+# any .pxd header files in the "srcs" section, these can be imported
+# in the py_deps section of a pyx_library rule with the suffix "_pxds"
+# appended to the target. (For an example, see the cc_deps section of the
+# "pywrapfst" rule.)
+
+# Cython extension libraries.
+pyx_library(
+    name = "pywrapfst",
+    srcs = [
+        "cios.pxd",
+        "cmemory.pxd",
+        "cpywrapfst.pxd",
+        "pywrapfst.pxd",
+        "pywrapfst.pyx",
+    ],
+    cc_deps = [
+        "//openfst/compat:compat_memory",
+        "//openfst/extensions/far:lib",
+        "//openfst/extensions/far:script",
+        "//openfst/lib",
+        "//openfst/lib:util",
+        "//openfst/script",
+        "//openfst/script:fstscript",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/memory",
+    ],
+    copts = ["-fexceptions"],
+    py_deps = [
+        "@com_google_absl_py//absl/logging",
+    ],
+    pyi_srcs = ["pywrapfst.pyi"],
+)
+
+filegroup(
+    name = "testdata",
+    data = [
+        "//openfst/extensions/far:testdata/test1-01.fst",
+        "//openfst/extensions/far:testdata/test1-02.fst",
+        "//openfst/extensions/far:testdata/test1-03.fst",
+        "//openfst/test:testdata/arc-map/m1.fst",
+        "//openfst/test:testdata/arc-map/m10.fst",
+        "//openfst/test:testdata/arc-map/m11.fst",
+        "//openfst/test:testdata/arc-map/m12.fst",
+        "//openfst/test:testdata/arc-map/m13.fst",
+        "//openfst/test:testdata/arc-map/m14.fst",
+        "//openfst/test:testdata/arc-map/m15.fst",
+        "//openfst/test:testdata/arc-map/m16.fst",
+        "//openfst/test:testdata/arc-map/m4.fst",
+        "//openfst/test:testdata/arc-map/m6.fst",
+        "//openfst/test:testdata/arc-map/m7.fst",
+        "//openfst/test:testdata/arc-map/m8.fst",
+        "//openfst/test:testdata/arc-map/m9.fst",
+        "//openfst/test:testdata/arcsort/a1.fst",
+        "//openfst/test:testdata/arcsort/a2.fst",
+        "//openfst/test:testdata/closure/c1.fst",
+        "//openfst/test:testdata/closure/c2.fst",
+        "//openfst/test:testdata/closure/c3.fst",
+        "//openfst/test:testdata/compile/fst.compiled",
+        "//openfst/test:testdata/compile/fst.txt",
+        "//openfst/test:testdata/compile/isyms.map",
+        "//openfst/test:testdata/compile/osyms.map",
+        "//openfst/test:testdata/compose/c1.fst",
+        "//openfst/test:testdata/compose/c2.fst",
+        "//openfst/test:testdata/compose/c3.fst",
+        "//openfst/test:testdata/concat/c1.fst",
+        "//openfst/test:testdata/concat/c2.fst",
+        "//openfst/test:testdata/concat/c3.fst",
+        "//openfst/test:testdata/concat/c7.fst",
+        "//openfst/test:testdata/connect/c1.fst",
+        "//openfst/test:testdata/connect/c2.fst",
+        "//openfst/test:testdata/convert/c1.fst",
+        "//openfst/test:testdata/determinize/d1.fst",
+        "//openfst/test:testdata/determinize/d2.fst",
+        "//openfst/test:testdata/determinize/d3.fst",
+        "//openfst/test:testdata/determinize/d4.fst",
+        "//openfst/test:testdata/determinize/d5.fst",
+        "//openfst/test:testdata/difference/d1.fst",
+        "//openfst/test:testdata/difference/d2.fst",
+        "//openfst/test:testdata/difference/d3.fst",
+        "//openfst/test:testdata/disambiguate/d1.fst",
+        "//openfst/test:testdata/disambiguate/d2.fst",
+        "//openfst/test:testdata/draw/draw.fst",
+        "//openfst/test:testdata/draw/draw-5p.dot",
+        "//openfst/test:testdata/encode/e1.fst",
+        "//openfst/test:testdata/encode/e1_cd.fst",
+        "//openfst/test:testdata/encode/e2.fst",
+        "//openfst/test:testdata/encode/e2_c.fst",
+        "//openfst/test:testdata/epsnormalize/e1.fst",
+        "//openfst/test:testdata/epsnormalize/e2.fst",
+        "//openfst/test:testdata/epsnormalize/e3.fst",
+        "//openfst/test:testdata/epsnormalize/e4.fst",
+        "//openfst/test:testdata/equivalent/e1.fst",
+        "//openfst/test:testdata/equivalent/e2.fst",
+        "//openfst/test:testdata/equivalent/e3.fst",
+        "//openfst/test:testdata/equivalent/e4.fst",
+        "//openfst/test:testdata/equivalent/e5.fst",
+        "//openfst/test:testdata/equivalent/e6.fst",
+        "//openfst/test:testdata/fst-file/compact1.fst",
+        "//openfst/test:testdata/fst-file/const1.fst",
+        "//openfst/test:testdata/fst-file/vector1.fst",
+        "//openfst/test:testdata/intersect/i1.fst",
+        "//openfst/test:testdata/intersect/i2.fst",
+        "//openfst/test:testdata/intersect/i3.fst",
+        "//openfst/test:testdata/invert/i1.fst",
+        "//openfst/test:testdata/invert/i2.fst",
+        "//openfst/test:testdata/minimize/acyclic_min.fst",
+        "//openfst/test:testdata/minimize/cyclic_min.fst",
+        "//openfst/test:testdata/minimize/m1.fst",
+        "//openfst/test:testdata/minimize/m2.fst",
+        "//openfst/test:testdata/minimize/m3.fst",
+        "//openfst/test:testdata/minimize/m4.fst",
+        "//openfst/test:testdata/minimize/m5.fst",
+        "//openfst/test:testdata/minimize/m6.fst",
+        "//openfst/test:testdata/minimize/transducer_acyclic_min.fst",
+        "//openfst/test:testdata/minimize/transducer_acyclic_min1.fst",
+        "//openfst/test:testdata/minimize/transducer_acyclic_min2.fst",
+        "//openfst/test:testdata/minimize/transducer_cyclic_min.fst",
+        "//openfst/test:testdata/minimize/weighted_acyclic_min.fst",
+        "//openfst/test:testdata/minimize/weighted_cyclic_min.fst",
+        "//openfst/test:testdata/print/p1.fst",
+        "//openfst/test:testdata/print/p1.map",
+        "//openfst/test:testdata/print/p1-nosyms.txt",
+        "//openfst/test:testdata/print/p1-syms.txt",
+        "//openfst/test:testdata/print/p2.fst",
+        "//openfst/test:testdata/print/p2.txt",
+        "//openfst/test:testdata/project/p1.fst",
+        "//openfst/test:testdata/project/p2.fst",
+        "//openfst/test:testdata/project/p3.fst",
+        "//openfst/test:testdata/prune/p1.fst",
+        "//openfst/test:testdata/prune/p2.fst",
+        "//openfst/test:testdata/push/p1.fst",
+        "//openfst/test:testdata/push/p2.fst",
+        "//openfst/test:testdata/push/p2r.fst",
+        "//openfst/test:testdata/push/p3.fst",
+        "//openfst/test:testdata/push/p3r.fst",
+        "//openfst/test:testdata/push/p4.fst",
+        "//openfst/test:testdata/push/p4r.fst",
+        "//openfst/test:testdata/push/p5.fst",
+        "//openfst/test:testdata/push/p5r.fst",
+        "//openfst/test:testdata/randgen/r1.fst",
+        "//openfst/test:testdata/randgen/r2.fst",
+        "//openfst/test:testdata/relabel/in2.map",
+        "//openfst/test:testdata/relabel/out3.map",
+        "//openfst/test:testdata/relabel/r1.fst",
+        "//openfst/test:testdata/relabel/r2.fst",
+        "//openfst/test:testdata/relabel/r3.fst",
+        "//openfst/test:testdata/relabel/r4.fst",
+        "//openfst/test:testdata/relabel/r5.fst",
+        "//openfst/test:testdata/relabel/r6.fst",
+        "//openfst/test:testdata/replace/g1.fst",
+        "//openfst/test:testdata/replace/g2.fst",
+        "//openfst/test:testdata/replace/g3.fst",
+        "//openfst/test:testdata/replace/g4.fst",
+        "//openfst/test:testdata/replace/g_out.fst",
+        "//openfst/test:testdata/reverse/r1.fst",
+        "//openfst/test:testdata/reverse/r2.fst",
+        "//openfst/test:testdata/reweight/r1.fst",
+        "//openfst/test:testdata/reweight/r1.pot",
+        "//openfst/test:testdata/reweight/r2.fst",
+        "//openfst/test:testdata/reweight/r3.fst",
+        "//openfst/test:testdata/rmepsilon/r1.fst",
+        "//openfst/test:testdata/rmepsilon/r2.fst",
+        "//openfst/test:testdata/rmepsilon/r4.fst",
+        "//openfst/test:testdata/shortest-distance/sd1.dst",
+        "//openfst/test:testdata/shortest-distance/sd1.fst",
+        "//openfst/test:testdata/shortest-distance/sd1.rdst",
+        "//openfst/test:testdata/shortest-distance/sd2.dst",
+        "//openfst/test:testdata/shortest-distance/sd2.fst",
+        "//openfst/test:testdata/shortest-distance/sd2.rdst",
+        "//openfst/test:testdata/shortest-path/sp1.fst",
+        "//openfst/test:testdata/shortest-path/sp2.fst",
+        "//openfst/test:testdata/shortest-path/sp3.fst",
+        "//openfst/test:testdata/shortest-path/sp4.fst",
+        "//openfst/test:testdata/shortest-path/sp5.fst",
+        "//openfst/test:testdata/shortest-path/sp6.fst",
+        "//openfst/test:testdata/shortest-path/sp9.fst",
+        "//openfst/test:testdata/state-map/a1.fst",
+        "//openfst/test:testdata/state-map/a2.fst",
+        "//openfst/test:testdata/state-map/b1.fst",
+        "//openfst/test:testdata/state-map/b2.fst",
+        "//openfst/test:testdata/symbol-table-ops/t1.map",
+        "//openfst/test:testdata/symbol-table-ops/t2.map",
+        "//openfst/test:testdata/symbol-table-ops/t3.fst",
+        "//openfst/test:testdata/symbol-table/negative.map",
+        "//openfst/test:testdata/symbol-table/phones.map",
+        "//openfst/test:testdata/symbol-table/space.map",
+        "//openfst/test:testdata/symbols/s2.fst",
+        "//openfst/test:testdata/synchronize/s1.fst",
+        "//openfst/test:testdata/synchronize/s2.fst",
+        "//openfst/test:testdata/topsort/t1.fst",
+        "//openfst/test:testdata/topsort/t2.fst",
+        "//openfst/test:testdata/union/u1.fst",
+        "//openfst/test:testdata/union/u2.fst",
+        "//openfst/test:testdata/union/u3.fst",
+    ],
+)
+
+py_test(
+    name = "pywrapfst_test",
+    size = "small",
+    srcs = ["pywrapfst_test.py"],
+    data = [":testdata"],
+    deps = [
+        ":pywrapfst",
+        "@com_google_absl_py//absl/testing:absltest",
+        "@com_google_absl_py//absl/testing:parameterized",
+    ],
+)

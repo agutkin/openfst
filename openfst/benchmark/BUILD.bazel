@@ -1,0 +1,273 @@
+# Copyright 2026 The OpenFst Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# OpenFst benchmarks.
+#
+# Run with --config=benchmark.
+
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_binary(
+    name = "symbol-table_test",
+    testonly = True,
+    srcs = ["symbol-table_test.cc"],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:compat_memory",
+        "//openfst/compat:init",
+        "//openfst/lib:symbol-table",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_absl//absl/memory",
+        "@com_google_absl//absl/strings",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "fst_test",
+    testonly = True,
+    srcs = ["fst_test.cc"],
+    data = [
+        "testdata/wotw.lm.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/extensions/ngram:ngram-fst",
+        "//openfst/extensions/ngram:ngram-fst-file",
+        "//openfst/lib",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/log:die_if_null",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "compose_test",
+    testonly = True,
+    srcs = ["compose_test.cc"],
+    data = [
+        "testdata/lexicon.fst",
+        "testdata/lexicon_opt.fst",
+        "testdata/string.fst",
+        "testdata/wotw.lm.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/extensions/ngram:ngram-fst",
+        "//openfst/extensions/ngram:ngram-fst-file",
+        "//openfst/lib",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/log:die_if_null",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_absl//absl/strings",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "compact_test",
+    testonly = True,
+    srcs = ["compact_test.cc"],
+    data = [
+        "testdata/lexicon.fst",
+        "testdata/lexicon_opt.fst",
+        "testdata/string.fst",
+        "testdata/wotw.lm.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/lib",
+        "//openfst/lib:fst-decl",
+        "@com_google_absl//absl/base",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/log:die_if_null",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "connect_test",
+    testonly = True,
+    srcs = ["connect_test.cc"],
+    data = [
+        "testdata/disconnected.lm.fst",
+        "testdata/lattice.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/lib",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:die_if_null",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_absl//absl/strings",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "determinize_test",
+    testonly = True,
+    srcs = ["determinize_test.cc"],
+    data = [
+        "testdata/lexicon_disamb.fst",
+        "testdata/wotw.lm.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/lib",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/log:die_if_null",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "memory_test",
+    testonly = True,
+    srcs = ["memory_test.cc"],
+    data = [],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:init",
+        "//openfst/lib",
+        "@com_google_absl//absl/container:flat_hash_set",
+        "@com_google_absl//absl/container:node_hash_set",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "minimize_test",
+    testonly = True,
+    srcs = ["minimize_test.cc"],
+    data = [
+        "testdata/lexicon_disamb.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/lib",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "shortest_path_test",
+    testonly = True,
+    srcs = ["shortest_path_test.cc"],
+    data = [
+        "testdata/lattice.fst",
+        "testdata/wotw.lm.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/lib",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/log:die_if_null",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "serialize_test",
+    testonly = True,
+    srcs = ["serialize_test.cc"],
+    data = ["testdata/serialize.fst"],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:file_path",
+        "//openfst/compat:init",
+        "//openfst/lib",
+        "//openfst/lib:symbol-table",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log:die_if_null",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+        "@com_google_googletest//:gtest",
+    ],
+)
+
+cc_binary(
+    name = "weight_test",
+    testonly = True,
+    srcs = ["weight_test.cc"],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:init",
+        "//openfst/lib:weight",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+        "@com_google_benchmark//:benchmark",
+    ],
+)

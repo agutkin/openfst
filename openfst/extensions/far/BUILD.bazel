@@ -1,0 +1,539 @@
+# Copyright 2026 The OpenFst Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+load("@//openfst/lib:build_rules.bzl", "fst_cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library", "cc_test")
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
+
+package(default_visibility = ["//visibility:public"])
+
+exports_files([
+    "testdata/test1-01.fst",
+    "testdata/test1-02.fst",
+    "testdata/test1-03.fst",
+])
+
+# Description: Finite-State Transducer (FST) archives
+
+fst_cc_library(
+    name = "sttable",
+    srcs = [
+        "stlist.cc",
+        "sttable.cc",
+    ],
+    hdrs = [
+        "stlist.h",
+        "sttable.h",
+    ],
+    deps = [
+        "//openfst/compat:compat_memory",
+        "//openfst/lib:file-stream-status",
+        "//openfst/lib:file-util",
+        "//openfst/lib:util",
+        "@com_google_absl//absl/base:core_headers",
+        "@com_google_absl//absl/base:nullability",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/memory",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/types:span",
+    ],
+)
+
+fst_cc_library(
+    name = "lib",
+    srcs = [
+        "far.cc",
+        "getters.cc",
+    ],
+    hdrs = [
+        "compile-strings.h",
+        "convert.h",
+        "create.h",
+        "encode.h",
+        "equal.h",
+        "extract.h",
+        "far.h",
+        "farlib.h",
+        "getters.h",
+        "info.h",
+        "isomorphic.h",
+        "map-reduce.h",
+        "print-strings.h",
+    ],
+    deps = [
+        ":sttable",
+        "//openfst/compat:compat_memory",
+        "//openfst/lib:file-util",
+        "//openfst/lib:lib_lite",
+        "//openfst/lib:register",
+        "//openfst/lib:symbol-table",
+        "//openfst/lib:util",
+        "@com_google_absl//absl/base:core_headers",
+        "@com_google_absl//absl/base:nullability",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:check",
+        "@com_google_absl//absl/memory",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/status:statusor",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/types:span",
+    ],
+)
+
+cc_library(
+    name = "script",
+    srcs = [
+        "compile-strings.cc",
+        "far-class.cc",
+        "farscript.cc",
+        "script-impl.cc",
+    ],
+    hdrs = [
+        "compile-strings.h",
+        "far-class.h",
+        "farscript.h",
+        "script-impl.h",
+    ],
+    deps = [
+        ":lib",
+        "//openfst/compat:compat_memory",
+        "//openfst/lib",
+        "//openfst/lib:file-util",
+        "//openfst/lib:symbol-table",
+        "//openfst/lib:util",
+        "//openfst/lib:weight",
+        "//openfst/script",
+        "//openfst/script:fstscript",
+        "@com_google_absl//absl/base",
+        "@com_google_absl//absl/base:nullability",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/memory",
+        "@com_google_absl//absl/status",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/types:span",
+    ],
+)
+
+cc_library(
+    name = "farcreate-main",
+    srcs = ["farcreate-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:file-util",
+        "//openfst/lib:lib_lite",
+        "//openfst/lib:util",
+        "//openfst/script",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farcompilestrings-main",
+    srcs = ["farcompilestrings-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:file-util",
+        "//openfst/lib:string",
+        "//openfst/lib:util",
+        "//openfst/script",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farconvert-main",
+    srcs = ["farconvert-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:util",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farencode-main",
+    srcs = ["farencode-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:util",
+        "//openfst/script",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farequal-main",
+    srcs = ["farequal-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:util",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farextract-main",
+    srcs = ["farextract-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:util",
+        "//openfst/script",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farinfo-main",
+    srcs = ["farinfo-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farisomorphic-main",
+    srcs = ["farisomorphic-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:util",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_library(
+    name = "farprintstrings-main",
+    srcs = ["farprintstrings-main.cc"],
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:init",
+        "//openfst/lib:string",
+        "//openfst/lib:util",
+        "//openfst/script",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+    ],
+)
+
+cc_binary(
+    name = "farcreate",
+    srcs = ["farcreate.cc"],
+    linkstatic = True,
+    deps = [
+        ":farcreate-main",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farcompilestrings",
+    srcs = ["farcompilestrings.cc"],
+    linkstatic = True,
+    deps = [
+        ":farcompilestrings-main",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farconvert",
+    srcs = ["farconvert.cc"],
+    linkstatic = True,
+    deps = [
+        ":farconvert-main",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farencode",
+    srcs = ["farencode.cc"],
+    linkstatic = True,
+    deps = [
+        ":farencode-main",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farequal",
+    srcs = ["farequal.cc"],
+    linkstatic = True,
+    deps = [
+        ":farequal-main",
+        "//openfst/lib:weight",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farextract",
+    srcs = ["farextract.cc"],
+    linkstatic = True,
+    deps = [
+        ":farextract-main",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farinfo",
+    srcs = ["farinfo.cc"],
+    linkstatic = True,
+    deps = [
+        ":farinfo-main",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farisomorphic",
+    srcs = ["farisomorphic.cc"],
+    linkstatic = True,
+    deps = [
+        ":farisomorphic-main",
+        "//openfst/lib:weight",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_binary(
+    name = "farprintstrings",
+    srcs = ["farprintstrings.cc"],
+    linkstatic = True,
+    deps = [
+        ":farprintstrings-main",
+        "@com_google_absl//absl/flags:flag",
+    ],
+)
+
+cc_test(
+    name = "far_test",
+    size = "medium",
+    srcs = ["far_test.cc"],
+    data = [
+        ":testdata/test1-01.fst",
+        ":testdata/test1-02.fst",
+        ":testdata/test1-03.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        ":lib",
+        ":script",
+        "//openfst/compat:file_path",
+        "//openfst/compat:status_macros",
+        "//openfst/lib:lib_lite",
+        "//openfst/lib:util",
+        "//openfst/script",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
+sh_test(
+    name = "convert-main_test",
+    size = "medium",
+    # In fastbuild mode, takes ~90 seconds, ~450 seconds for asan.
+    timeout = "long",
+    srcs = ["convert-main_test.sh"],
+    data = [
+        ":farconvert",
+        ":farequal",
+        ":farinfo",
+        ":testdata/empty.sttable.far",
+        ":testdata/test1.sttable.far",
+        ":testdata/test2.stlist.far",
+        "//openfst/bin:setup",
+    ],
+)
+
+sh_test(
+    name = "create-main_test",
+    size = "medium",
+    srcs = ["create-main_test.sh"],
+    data = [
+        ":farcreate",
+        ":farextract",
+        ":farinfo",
+        ":testdata/test1-01.fst",
+        ":testdata/test1-02.fst",
+        ":testdata/test1-03.fst",
+        "//openfst/bin:fstequal",
+        "//openfst/bin:setup",
+    ],
+)
+
+sh_test(
+    name = "encode-main_test",
+    size = "medium",
+    srcs = ["encode-main_test.sh"],
+    data = [
+        ":farencode",
+        ":farequal",
+        ":testdata/test2.stlist.far",
+        "//openfst/bin:setup",
+    ],
+)
+
+sh_test(
+    name = "equal-main_test",
+    size = "medium",
+    srcs = ["equal-main_test.sh"],
+    data = [
+        ":farequal",
+        ":testdata/empty.sttable.far",
+        ":testdata/strings.sttable.far",
+        ":testdata/test1.sttable.far",
+        "//openfst/bin:setup",
+    ],
+)
+
+sh_test(
+    name = "extract-main_test",
+    size = "medium",
+    srcs = ["extract-main_test.sh"],
+    data = [
+        ":farextract",
+        ":testdata/empty.sttable.far",
+        ":testdata/test1.sttable.far",
+        ":testdata/test1-01.fst",
+        ":testdata/test1-02.fst",
+        ":testdata/test1-03.fst",
+        ":testdata/test2.stlist.far",
+        ":testdata/test2-01.fst",
+        ":testdata/test2-02.fst",
+        ":testdata/test2-03.fst",
+        "//openfst/bin:fstequal",
+        "//openfst/bin:setup",
+    ],
+)
+
+sh_test(
+    name = "isomorphic-main_test",
+    size = "medium",
+    srcs = ["isomorphic-main_test.sh"],
+    data = [
+        ":farisomorphic",
+        ":testdata/empty.sttable.far",
+        ":testdata/strings.sttable.far",
+        ":testdata/test1.sttable.far",
+        "//openfst/bin:setup",
+    ],
+)
+
+sh_test(
+    name = "compilestrings-main_test",
+    size = "medium",
+    timeout = "long",
+    srcs = ["compilestrings-main_test.sh"],
+    data = [
+        ":farcompilestrings",
+        ":farextract",
+        ":farinfo",
+        ":testdata/strings1",
+        ":testdata/strings1-1-byte.fst",
+        ":testdata/strings1-1-symbol.fst",
+        ":testdata/strings1-2-byte.fst",
+        ":testdata/strings1-2-symbol.fst",
+        ":testdata/strings1-3-byte.fst",
+        ":testdata/strings1-3-symbol.fst",
+        ":testdata/strings1-byte.fst",
+        ":testdata/strings1-symbol.fst",
+        ":testdata/strings1-unk",
+        ":testdata/strings2",
+        ":testdata/strings2-1-byte.fst",
+        ":testdata/strings2-1-symbol.fst",
+        ":testdata/strings2-2-byte.fst",
+        ":testdata/strings2-2-symbol.fst",
+        ":testdata/strings2-byte.fst",
+        ":testdata/strings2-symbol.fst",
+        ":testdata/syms.map",
+        "//openfst/bin:fstequal",
+        "//openfst/bin:setup",
+    ],
+)
+
+sh_test(
+    name = "printstrings-main_test",
+    size = "medium",
+    srcs = ["printstrings-main_test.sh"],
+    data = [
+        ":farcreate",
+        ":farprintstrings",
+        ":testdata/empty.sttable.far",
+        ":testdata/strings1",
+        ":testdata/strings1-1-byte.fst",
+        ":testdata/strings1-1-symbol.fst",
+        ":testdata/strings1-2-byte.fst",
+        ":testdata/strings1-2-symbol.fst",
+        ":testdata/strings1-3-byte.fst",
+        ":testdata/strings1-3-symbol.fst",
+        ":testdata/strings1-byte.fst",
+        ":testdata/strings1-symbol.fst",
+        ":testdata/strings2",
+        ":testdata/strings2-1-byte.fst",
+        ":testdata/strings2-1-symbol.fst",
+        ":testdata/strings2-2-byte.fst",
+        ":testdata/strings2-2-symbol.fst",
+        ":testdata/strings2-byte.fst",
+        ":testdata/strings2-symbol.fst",
+        ":testdata/syms.map",
+        "//openfst/bin:setup",
+    ],
+)

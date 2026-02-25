@@ -1,4 +1,4 @@
-# Copyright 2015-2024 Google LLC.
+# Copyright 2026 The OpenFst Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,58 +12,73 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# OpenFst Bazel configuration file.
-# ---------------------------------
-# Based on TensorFlow options in:
-#   https://github.com/tensorflow/tensorflow/blob/master/.bazelrc
-#
-# Compiler options:
-#     c++17:                  Build with C++17 options (links with libc++)
-#     c++1z:                  Build with C++17 options (links with libc++)
-#     c++17_gcc:              Build with C++17 options (links with stdlibc++)
-#     c++1z_gcc:              Build with C++17 options (links with stdlibc++)
-#
-# Other build options:
-#     short_logs:       Only log errors during build, skip warnings.
-#     verbose_logs:     Show all compiler warnings during build.
-#     libc++:           Link against libc++ instead of stdlibc++
+# Enable logging rc options.
+common --announce_rc
 
-# Suppress all warning messages.
-build:short_logs --output_filter=DONT_MATCH_ANYTHING
-build:verbose_logs --output_filter=
-build --config=short_logs
+# ------------------------------------------------------------------------------
+# Compilation-mode options.
+# ------------------------------------------------------------------------------
 
-# Allow builds using libc++ as a linker library. This is mostly for
-# OSSFuzz, so we also pass in the flags from environment to clean
-# build file.
-build:libc++ --action_env=CC
-build:libc++ --action_env=CXX
-build:libc++ --action_env=CXXFLAGS=-stdlib=libc++
-build:libc++ --action_env=PATH
-build:libc++ --define force_libcpp=enabled
-build:libc++ --linkopt -fuse-ld=lld
+# Tests are very slow with default `-O0`.
+build:dev --copt=-O1
 
-# Build with C++ 17 features.
-build:c++17 --cxxopt=-std=c++1z
-build:c++17 --cxxopt=-stdlib=libc++
-build:c++1z --config=c++17
-build:c++17_gcc --cxxopt=-std=c++1z
-build:c++1z_gcc --config=c++17_gcc
+# ------------------------------------------------------------------------------
+# Per-plaform options.
+# ------------------------------------------------------------------------------
 
-# Enable using platform specific build settings, except when cross-compiling for
-# mobile platforms.
+# By default, detect the platform and use the platform-specific options below.
 build --enable_platform_specific_config
-build:android --noenable_platform_specific_config
-build:ios --noenable_platform_specific_config
 
-# By default, build in C++ 17 mode.
-build:android --cxxopt=-std=c++17
-build:android --host_cxxopt=-std=c++17
-build:ios --cxxopt=-std=c++17
-build:ios --host_cxxopt=-std=c++17
-build:linux --cxxopt=-std=c++17
-build:linux --host_cxxopt=-std=c++17
-build:macos --cxxopt=-std=c++17
-build:macos --host_cxxopt=-std=c++17
-build:windows --cxxopt=/std:c++17
-build:windows --host_cxxopt=/std:c++17
+# Flags common to all the platforms.
+build --cxxopt=-std=c++17
+build --cxxopt=-Wno-sign-compare
+build --cxxopt=-fno-exceptions
+build --cxxopt=-Wno-deprecated-declarations
+# TODO: b/476056201 - This warning is enabled in Google, so unclear why it is
+# failing here.  Investigate, fix, and re-enable.
+build --cxxopt=-Wno-overloaded-virtual
+
+# Temporarily disabled warnings that we would like to turn on.
+build --cxxopt=-Wno-defaulted-function-deleted
+build --cxxopt=-Wno-nullability-completeness
+
+# ------------------------------------------------------------------------------
+# Options for Linux.
+# ------------------------------------------------------------------------------
+
+# No Linux-specific flags here yet.
+
+# ------------------------------------------------------------------------------
+# Options for macOS.
+# ------------------------------------------------------------------------------
+
+# Sets the default Apple platform to macOS.
+build --apple_platform_type=macos
+build:macos --features=-supports_dynamic_linker
+build:macos --cxxopt=-Wno-dangling-field
+build:macos --cxxopt=-mmacos-version-min=10.15
+
+# ------------------------------------------------------------------------------
+# Options for --config=gcc, gcc_old, llvm, and llvm_old.
+# ------------------------------------------------------------------------------
+# NOTE: GCC toolchains are broken with Bazel 9 until
+# https://github.com/bazelbuild/bazel-central-registry/pull/7391
+# is merged.
+build:gcc --extra_toolchains=@gcc_toolchain_cur//:all
+build:gcc_old --extra_toolchains=@gcc_toolchain_old//:all
+build:llvm --extra_toolchains=@llvm_toolchain_cur//:all
+build:llvm --linkopt=-fuse-ld=lld
+build:llvm_old --extra_toolchains=@llvm_toolchain_old//:all
+build:llvm_old --linkopt=-fuse-ld=lld
+
+# ------------------------------------------------------------------------------
+# Options for benchmarking.
+# ------------------------------------------------------------------------------
+
+# It's useless to benchmark a debug build.
+build:benchmark --compilation_mode=opt
+# Link the benchmark binary statically, even if it's a `cc_test`.
+# The default link mode for `cc_test` is dynamic.
+build:benchmark --dynamic_mode=off
+# Generate line table debug info for profiling.
+build:benchmark --copt=-gmlt

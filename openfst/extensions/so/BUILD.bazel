@@ -1,0 +1,321 @@
+# Copyright 2026 The OpenFst Authors.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Description:
+#   Libraries and shared objects for registering uncommon Fst types.
+
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+package(default_visibility = ["//visibility:public"])
+
+# CompactFst shared objects.
+
+cc_binary(
+    name = "compact8_acceptor-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact8_acceptor-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact8_string-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact8_string-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact8_unweighted-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact8_unweighted-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact8_unweighted_acceptor-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact8_unweighted_acceptor-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact8_weighted_string-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact8_weighted_string-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact16_acceptor-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact16_acceptor-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact16_string-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact16_string-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact16_unweighted-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact16_unweighted-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact16_unweighted_acceptor-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact16_unweighted_acceptor-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact16_weighted_string-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact16_weighted_string-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact64_acceptor-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact64_acceptor-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact64_string-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact64_string-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact64_unweighted-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact64_unweighted-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact64_unweighted_acceptor-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact64_unweighted_acceptor-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "compact64_weighted_string-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/compact:compact64_weighted_string-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+# ConstFst shared objects
+
+cc_binary(
+    name = "const8-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/const:const8-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "const16-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/const:const16-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+cc_binary(
+    name = "const64-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = [
+        "//openfst/extensions/const:const64-fst",
+        "//openfst/lib:lib_export_dynamic",
+    ],
+)
+
+# LookAheadFst shared objects.
+
+cc_binary(
+    name = "arc_lookahead-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/lookahead:arc_lookahead-fst"],
+)
+
+cc_binary(
+    name = "ilabel_lookahead-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/lookahead:ilabel_lookahead-fst"],
+)
+
+cc_binary(
+    name = "olabel_lookahead-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/lookahead:olabel_lookahead-fst"],
+)
+
+# NGramFst shared object.
+
+cc_binary(
+    name = "ngram-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/ngram:ngram-fst-file"],
+)
+
+# PhiFst shared objects.
+
+cc_binary(
+    name = "phi-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:phi-fst"],
+)
+
+cc_binary(
+    name = "input_phi-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:phi-fst"],
+)
+
+cc_binary(
+    name = "output_phi-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:phi-fst"],
+)
+
+# RhoFst shared objects.
+
+cc_binary(
+    name = "rho-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:rho-fst"],
+)
+
+cc_binary(
+    name = "input_rho-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:rho-fst"],
+)
+
+cc_binary(
+    name = "output_rho-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:rho-fst"],
+)
+
+# SigmaFst shared objects.
+
+cc_binary(
+    name = "sigma-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:sigma-fst"],
+)
+
+cc_binary(
+    name = "input_sigma-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:sigma-fst"],
+)
+
+cc_binary(
+    name = "output_sigma-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/special:sigma-fst"],
+)
+
+# LinearFst shared objects.
+
+cc_binary(
+    name = "linear_tagger-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/linear:linear-tagger-fst"],
+)
+
+cc_binary(
+    name = "linear_classifier-fst.so",
+    linkshared = 1,
+    linkstatic = True,
+    deps = ["//openfst/extensions/linear:linear-classifier-fst"],
+)
