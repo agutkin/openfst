@@ -39,14 +39,14 @@ provided for MPDTs:
 Operation | Usage                                                                           | Description                                              | Complexity
 --------- | ------------------------------------------------------------------------------- | -------------------------------------------------------- | ----------
 Compose   | Compose(a_pdt, parens, b_fst, &c_pdt);                                          | compose an MPDT and an FST with MPDT result (Bar-Hillel) | Same as FST [composition](compose.md)
-          | Compose(a_fst, b_mpdt, parens, assignments, &c_mpdt);                           |                                                          |
-          | mpdtcompose -mpdt_parentheses=mpdt.parens a.mpdt b.fst >c.mpdt                  |                                                          |
-          | mpdtcompose -mpdt_parentheses=mpdt.parens -left_mpdt=false a.fst b.mpdt >c.mpdt |                                                          |
+&nbsp;    | Compose(a_fst, b_mpdt, parens, assignments, &c_mpdt);                           |                                                          |
+&nbsp;    | mpdtcompose -mpdt_parentheses=mpdt.parens a.mpdt b.fst >c.mpdt                  |                                                          |
+&nbsp;    | mpdtcompose -mpdt_parentheses=mpdt.parens -left_mpdt=false a.fst b.mpdt >c.mpdt |                                                          |
 Expand    | Expand(a_mpdt, parens, assignments, &b_fst);                                    | expands a (bounded-stack) MPDT as an FST                 | Time, Space: $O(e^{O(V + E)})$ for the default 2-stack read-restrict configuration
-          | mpdtexpand -mpdt_parentheses=mpdt.parens a.mpdt >b.fst                          |                                                          |
+&nbsp;    | mpdtexpand -mpdt_parentheses=mpdt.parens a.mpdt >b.fst                          |                                                          |
 Info      | mpdtinfo -mpdt_parentheses=mpdt.parens a.mpdt                                   | prints out information about an MPDT                     |
 Reverse   | Reverse(a_mpdt, parens, &b_mpdt);                                               | reverses an MPDT; also reverses the stack assignments    | Time, Space: $O(V + E)$
-          | mpdtreverse -mpdt_parentheses=mpdt.parens a.mpdt >b.mpdt                        |                                                          |
+&nbsp;    | mpdtreverse -mpdt_parentheses=mpdt.parens a.mpdt >b.mpdt                        |                                                          |
 
 There are also delayed versions of these algorithms where possible. See the
 header files for additional information including options. Note with this
