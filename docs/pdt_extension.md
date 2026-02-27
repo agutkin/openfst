@@ -23,21 +23,21 @@ The following operations, many which have FST analogues (but are distinguished
 in C++ by having a `vector<pair<Label, Label>>` parenthesis pair argument), are
 provided for PDTs:
 
-Operation    | Usage                                                                                         | Description                                                            | Complexity
------------- | --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------
-Compose      | Compose(a_pdt, parens, b_fst, &c_pdt);                                                        | compose a PDT and an FST with PDT result (Bar-Hillel)                  | Same as FST [composition](compose.md)
-&nbsp;       | Compose(a_fst, b_pdt, parens, &c_pdt);                                                        |                                                                        |
-&nbsp;       | pdtcompose -pdt_parentheses=pdt.parens a.pdt b.fst >c.pdt                                     |                                                                        |
-&nbsp;       | pdtcompose -pdt_parentheses=pdt.parens -pdt_left_pdt=false a.fst b.pdt >c.pdt                 |                                                                        |
-Expand       | Expand(a_pdt, parens, &b_fst);                                                                | expands a (bounded-stack) PDT as an FST                                | Time, Space: $O(e^{O(V + E)})$
-&nbsp;       | pdtexpand -pdt_parentheses=pdt.parens a.pdt >b.fst                                            |                                                                        |
-Info         | pdtinfo -pdt_parentheses=pdt.parens a.pdt                                                     | prints out information about a PDT                                     |
-Replace      | Replace(fst_label_pairs, &b_pdt, root_label, &parens);                                        | Converts an RTN represented by FSTs and non-terminal labels into a PDT | Time, Space: $O(\sum (V_i + E_i))$
-&nbsp;       | pdtreplace -pdt_parentheses=pdt.parens root.fst rootlabel [rule1.fst rule1.label ...] out.pdt |                                                                        |
-Reverse      | Reverse(a_pdt, parens, &b_pdt);                                                               | reverses a PDT                                                         | Time, Space: $O(V + E)$
-&nbsp;       | pdtreverse -pdt_parentheses=pdt.parens a.pdt >b.pdt                                           |                                                                        |
-ShortestPath | ShortestPath(a_pdt, parens, &b_fst);                                                          | find the shortest path in a (bounded-stack) PDT (cf. Earley)           | Time: $O((V + E)^3)$, Space: $O((V + E)^2)$
-&nbsp;       | pdtshortestpath -pdt_parentheses=pdt.parens a.pdt >b.fst                                      |                                                                        |
+Operation    | Usage                                                                                           | Description                                                            | Complexity
+------------ | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | ----------
+Compose      | `Compose(a_pdt, parens, b_fst, &c_pdt);`                                                        | compose a PDT and an FST with PDT result (Bar-Hillel)                  | Same as FST [composition](compose.md)
+&nbsp;       | `Compose(a_fst, b_pdt, parens, &c_pdt);`                                                        |                                                                        |
+&nbsp;       | `pdtcompose -pdt_parentheses=pdt.parens a.pdt b.fst >c.pdt`                                     |                                                                        |
+&nbsp;       | `pdtcompose -pdt_parentheses=pdt.parens -pdt_left_pdt=false a.fst b.pdt >c.pdt`                 |                                                                        |
+Expand       | `Expand(a_pdt, parens, &b_fst);`                                                                | expands a (bounded-stack) PDT as an FST                                | Time, Space: $O(e^{O(V + E)})$
+&nbsp;       | `pdtexpand -pdt_parentheses=pdt.parens a.pdt >b.fst`                                            |                                                                        |
+Info         | `pdtinfo -pdt_parentheses=pdt.parens a.pdt`                                                     | prints out information about a PDT                                     |
+Replace      | `Replace(fst_label_pairs, &b_pdt, root_label, &parens);`                                        | Converts an RTN represented by FSTs and non-terminal labels into a PDT | Time, Space: $O(\sum (V_i + E_i))$
+&nbsp;       | `pdtreplace -pdt_parentheses=pdt.parens root.fst rootlabel [rule1.fst rule1.label ...] out.pdt` |                                                                        |
+Reverse      | `Reverse(a_pdt, parens, &b_pdt);`                                                               | reverses a PDT                                                         | Time, Space: $O(V + E)$
+&nbsp;       | `pdtreverse -pdt_parentheses=pdt.parens a.pdt >b.pdt`                                           |                                                                        |
+ShortestPath | `ShortestPath(a_pdt, parens, &b_fst);`                                                          | find the shortest path in a (bounded-stack) PDT (cf. Earley)           | Time: $O((V + E)^3)$, Space: $O((V + E)^2)$
+&nbsp;       | `pdtshortestpath -pdt_parentheses=pdt.parens a.pdt >b.fst`                                      |                                                                        |
 
 There are also delayed versions of these algorithms where possible. See the
 header files for additional information including options. Note with this

@@ -74,7 +74,7 @@ We can save this FST to a file with:
 fst.Write("binary.fst");
 ```
 
-### Creating FSTs Using Text Files from the Shell {#fstcompile}
+### Creating FSTs Using Text Files from the Shell <a id="fstcompile"/>
 
 FSTs can be specified using a text file in the
 [AT&T FSM](http://www.cs.nyu.edu/~mohri/postscript/tcs2.ps) format. We can
@@ -537,7 +537,7 @@ Operation                                | Usage                                
 &nbsp;                                   | `fstunion a.fst b.fst out.fst`                                                         |
 [Verify](verify.md)                      | `Verify(A);`                                                                           | tests sanity of FST's contents
 
-## FST Weights {#weights}
+## FST Weights <a id="weights"/>
 
 An arc weight in an FST gives the cost of taking that transition. The OpenFst
 library supports multiple types of weights -- in fact, any C++ class that meets
