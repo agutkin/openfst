@@ -14,7 +14,7 @@
 
 # See https://github.com/actions/runner-images.
 
-name: "Build and test on x64 Linux (Bazel)"
+name: "Bazel build (x64 Linux)"
 
 on:
   push:

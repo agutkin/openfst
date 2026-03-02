@@ -2,6 +2,9 @@
 
 # OpenFst Library
 
+[![GitHub license](https://img.shields.io/badge/license-Apache2-blue.svg)](https://github.com/google-research/nisaba/blob/main/LICENSE)
+[![bazel_x86_linux](https://github.com/google-research/openfst/actions/workflows/bazel_x64_linux.yml/badge.svg?branch=main)](https://github.com/google-research/openfst/actions?query=workflow%3A%22Bazel%20build%20%28x64%20Linux%29%22)
+
 This library is for constructing, combining, optimizing, and searching *weighted
 finite-state transducers* (FSTs). Weighted finite-state transducers are automata
 where each transition has an input label, an output label, and a
