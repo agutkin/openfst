@@ -50,7 +50,6 @@ semiring <a id="semiring"/>
 :   A semiring is a set of elements (*weights*) together with two binary
     operations $\oplus$ and $\otimes$ and two designated elements $0$ and
     $1$ with the following properties:
-
     *   $\oplus$: associative, commutative, and has $0$ as its identity.
     *   $\otimes$: associative and has identity $1$, distributes w.r.t.
         $\oplus$, and has $0$ as an annihilator: $0 \otimes a = a \otimes
