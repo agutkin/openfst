@@ -681,8 +681,7 @@ class RealWeightTpl : public FloatWeightTpl<T> {
 
   RealWeightTpl() noexcept : FloatWeightTpl<T>() {}
 
-  // TODO: Make explicit when //nlp/grm2/fst is fixed.
-  /* explicit */ constexpr RealWeightTpl(T f) : FloatWeightTpl<T>(f) {}
+  explicit constexpr RealWeightTpl(T f) : FloatWeightTpl<T>(f) {}
 
   static constexpr RealWeightTpl Zero() { return RealWeightTpl(0); }
 
