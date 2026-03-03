@@ -510,7 +510,7 @@ class ExpandedFst : public Fst<class A> {
 and `ConstFst`
 [`ConstFst`](https://www.openfst.org/doxygen/fst/html/classfst_1_1ConstFst.html)
 
-## FST Input/Output <a id="input-output"/>
+## FST Input/Output <a id="input-output"></a>
 
 The following describes methods for reading and writing binary file
 representations of FSTS. Note these binary file representations are

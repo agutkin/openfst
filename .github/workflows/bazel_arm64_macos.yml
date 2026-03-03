@@ -14,7 +14,7 @@
 
 # See https://github.com/actions/runner-images.
 
-name: "Bazel build (x64 Linux)"
+name: "Bazel build (arm64 macOS)"
 
 on:
   push:
@@ -27,11 +27,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-    build-and-test-x64-linux-bazel:
-      name: Build and Test (x64 Linux, Bazel)
-      runs-on: ubuntu-latest
+    build-and-test-arm64-macos-bazel:
+      name: Build and Test
+      runs-on: macos-latest
       env:
-        BAZEL: bazelisk-linux-amd64
+        BAZEL: bazelisk-darwin-arm64
         USE_BAZEL_VERSION: 9.0.0
         cache-name: ${{github.job}}
         cache-path: "~/.cache/bazel"
