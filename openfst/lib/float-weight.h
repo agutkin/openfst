@@ -210,8 +210,7 @@ class TropicalWeightTpl : public FloatWeightTpl<T> {
 
   TropicalWeightTpl() noexcept : FloatWeightTpl<T>() {}
 
-  // TODO: Enable "explicit" when dependent code is resolved.
-  /* explicit */ constexpr TropicalWeightTpl(T f) : FloatWeightTpl<T>(f) {}
+  explicit constexpr TropicalWeightTpl(T f) : FloatWeightTpl<T>(f) {}
 
   static constexpr TropicalWeightTpl<T> Zero() {
     return TropicalWeightTpl<T>(Limits::PosInfinity());
@@ -434,8 +433,7 @@ class LogWeightTpl : public FloatWeightTpl<T> {
 
   LogWeightTpl() noexcept : FloatWeightTpl<T>() {}
 
-  // TODO: Add explicit when nlp/grm/sfst is updated.
-  /* explicit */ constexpr LogWeightTpl(T f) : FloatWeightTpl<T>(f) {}
+  explicit constexpr LogWeightTpl(T f) : FloatWeightTpl<T>(f) {}
 
   static constexpr LogWeightTpl Zero() {
     return LogWeightTpl(Limits::PosInfinity());
