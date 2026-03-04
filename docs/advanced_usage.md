@@ -1056,7 +1056,7 @@ them (or the user can recognize the `kNoLabel` loop and skip them).
 
 The special symbols referenced above behave as described in this table:
 
-             | Consumes no symbol | Consumes symbol
+&nbsp;       | Consumes no symbol | Consumes symbol
 ------------ | ------------------ | ---------------
 Matches all  | ε                  | σ
 Matches rest | φ                  | ρ
@@ -1235,33 +1235,33 @@ if false and neither is set if unknown.
 Type          | Name                 | Description
 ------------- | -------------------- | -----------
 Acceptor      | `kAcceptor`          | Input and output label are equal for each arc
-              | `kNotAcceptor`       | Input and output label are not equal for some arc
+&nbsp;        | `kNotAcceptor`       | Input and output label are not equal for some arc
 Accessible    | `kAccessible`        | All states reachable from the initial state
-              | `kNotAccessible`     | Not all states reachable from the initial state
-              | `kCoAccessible`      | All states can reach a final state
-              | `kNotCoAccessible`   | Not all states can reach a final state
+&nbsp;        | `kNotAccessible`     | Not all states reachable from the initial state
+&nbsp;        | `kCoAccessible`      | All states can reach a final state
+&nbsp;        | `kNotCoAccessible`   | Not all states can reach a final state
 Cyclic        | `kCyclic`            | Has cycles
-              | `kAcyclic`           | Has no cycles
-              | `kInitialCyclic`     | Has cycles containing the initial state
-              | `KInitialAcyclic`    | Has no cycles containing the initial state
+&nbsp;        | `kAcyclic`           | Has no cycles
+&nbsp;        | `kInitialCyclic`     | Has cycles containing the initial state
+&nbsp;        | `KInitialAcyclic`    | Has no cycles containing the initial state
 Deterministic | `kIDeterministic`    | Input labels are unique leaving each state
-              | `kNonIDeterministic` | Input labels are not unique leaving some state
-              | `kODeterministic`    | Output labels are unique leaving each state
-              | `kNonODeterministic` | Output labels are not unique leaving some state
+&nbsp;        | `kNonIDeterministic` | Input labels are not unique leaving some state
+&nbsp;        | `kODeterministic`    | Output labels are unique leaving each state
+&nbsp;        | `kNonODeterministic` | Output labels are not unique leaving some state
 Epsilons      | `kEpsilons`          | Has input/output epsilons
-              | `KNoEpsilons`        | Has no input/output epsilons
-              | `kIEpsilons`         | Has input epsilons
-              | `KNoIEpsilons`       | Has no input epsilons
-              | `kOEpsilons`         | Has output epsilons
-              | `KNoOEpsilons`       | Has no output epsilons
+&nbsp;        | `KNoEpsilons`        | Has no input/output epsilons
+&nbsp;        | `kIEpsilons`         | Has input epsilons
+&nbsp;        | `KNoIEpsilons`       | Has no input epsilons
+&nbsp;        | `kOEpsilons`         | Has output epsilons
+&nbsp;        | `KNoOEpsilons`       | Has no output epsilons
 Sorted        | `kILabelSorted`      | Input labels sorted for each state
-              | `kNotILabelSorted`   | Input labels not sorted for each state
-              | `kOLabelSorted`      | Output labels sorted for each state
-              | `kNotOLabelSorted`   | Output labels not sorted for each state
-              | `kTopSorted`         | States topologically sorted
-              | `kNotTopSorted`      | States not topologically sorted
+&nbsp;        | `kNotILabelSorted`   | Input labels not sorted for each state
+&nbsp;        | `kOLabelSorted`      | Output labels sorted for each state
+&nbsp;        | `kNotOLabelSorted`   | Output labels not sorted for each state
+&nbsp;        | `kTopSorted`         | States topologically sorted
+&nbsp;        | `kNotTopSorted`      | States not topologically sorted
 Weighted      | `kWeighted`          | Non-trivial arc or final weights
-              | `kNotWeighted`       | Only trivial arc and final weights
+&nbsp;        | `kNotWeighted`       | Only trivial arc and final weights
 
 The call `fst.Properties(mask, false)` returns the stored property bits set in
 the mask bits; some properties may be unknown. it is a constant-time operation.
@@ -1610,7 +1610,7 @@ Real          | `RealWeightTpl<T>`              | $[0, \infty)$                 
 SignedLog     | `SignedLogWeightTpl<T>`         | $\{-1,1\} \times [-\infty, \infty]$ | [$\oplus$signed_log](signed_log_plus.md) | $(\times,+)$                                | $(1, \infty)$       | $(1, 0)$            | `T`: floating point                                                                              | [`SignedLogWeightTpl`](https://www.openfst.org/doxygen/fst/html/classfst_1_1SignedLogWeightTpl.html)
 SparsePower   | `SparsePowerWeight<W>`          | $W^n$                               | $\oplus_{W^n}$                           | $\otimes_{W^n}$                             | $0_{W^n}$           | $1_{W^n}$           | `n`: arbitrary                                                                                   | [`SparsePowerWeight`](https://www.openfst.org/doxygen/fst/html/classfst_1_1SparsePowerWeight.html)
 String        | `StringWeight<L, STRING_LEFT>`  | $L^* \cup \{\infty\}$               | longest com. prefix                        | $\cdot$                                     | $\infty$            | $\epsilon$          | `L`: signed integral                                                                             | [`StringWeight`](https://www.openfst.org/doxygen/fst/html/classfst_1_1StringWeight.html)
-              | `StringWeight<L, STRING_RIGHT>` | $L^* \cup \{\infty\}$               | longest com. suffix                        | $\cdot$                                     | $\infty$            | $\epsilon$          | `L`: signed integral                                                                             | [`StringWeight`](https://www.openfst.org/doxygen/fst/html/classfst_1_1StringWeight.html)
+&nbsp;        | `StringWeight<L, STRING_RIGHT>` | $L^* \cup \{\infty\}$               | longest com. suffix                        | $\cdot$                                     | $\infty$            | $\epsilon$          | `L`: signed integral                                                                             | [`StringWeight`](https://www.openfst.org/doxygen/fst/html/classfst_1_1StringWeight.html)
 Tropical      | `TropicalWeightTpl<T>`          | $[-\infty, \infty]$                 | $\min$                                   | $+$                                         | $\infty$            | $0$                 | `T`: floating point                                                                              | [`TropicalWeightTpl`](https://www.openfst.org/doxygen/fst/html/classfst_1_1TropicalWeightTpl.html)
 
 The following weight types have been defined in the OpenFst library in terms of
