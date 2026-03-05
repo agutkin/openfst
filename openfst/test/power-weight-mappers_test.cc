@@ -69,13 +69,13 @@ TYPED_TEST_SUITE(FromPowerWeightMapperTest, PowerWeightTypes);
 TYPED_TEST(FromPowerWeightMapperTest, TropicalWeight) {
   using FromWeight = typename TestFixture::FromWeight;
   const FromWeight w = CreateWeight<FromWeight>({{0, 1.23}, {2, 2.34}});
-  EXPECT_EQ(1.23, typename TestFixture::Mapper()(w));
+  EXPECT_EQ(TropicalWeight(1.23), typename TestFixture::Mapper()(w));
 }
 
 TYPED_TEST(FromPowerWeightMapperTest, TropicalWeightWithIndex) {
   using FromWeight = typename TestFixture::FromWeight;
   const FromWeight w = CreateWeight<FromWeight>({{0, 1.23}, {2, 2.34}});
-  EXPECT_EQ(2.34, typename TestFixture::Mapper(2)(w));
+  EXPECT_EQ(TropicalWeight(2.34), typename TestFixture::Mapper(2)(w));
 }
 
 TYPED_TEST(FromPowerWeightMapperTest, TropicalWeightDefault) {
