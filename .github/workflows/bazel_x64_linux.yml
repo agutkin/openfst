@@ -14,7 +14,7 @@
 
 # See https://github.com/actions/runner-images.
 
-name: "Bazel build (x64 Linux)"
+name: "Bazel (x64 Linux)"
 
 on:
   push:
@@ -28,41 +28,26 @@ concurrency:
 
 jobs:
     build-and-test-x64-linux-bazel:
-      name: Build and Test (x64 Linux, Bazel)
+      name: Build and Test
       runs-on: ubuntu-latest
       env:
-        BAZEL: bazelisk-linux-amd64
         USE_BAZEL_VERSION: 9.0.0
-        cache-name: ${{github.job}}
-        cache-path: "~/.cache/bazel"
       steps:
         - uses: actions/checkout@v6
-        - name: Setup Python
-          uses: actions/setup-python@v6
-        - name: Check Python
-          run: python --version
-        - name: Install Bazelisk
-          run: |
-            curl -LO "https://github.com/bazelbuild/bazelisk/releases/latest/download/$BAZEL"
-            chmod +x $BAZEL
-        - name: Check Bazelisk
-          run: ./$BAZEL --version
-        - name: Restore Bazel cache
-          uses: actions/cache/restore@v5
-          id: bazel-cache-restore
+        - name: Setup Bazel
+          uses: bazel-contrib/setup-bazel@0.18.0
           with:
-            path: ${{env.cache-path}}
-            key: bazel-cache-${{env.cache-name}}
-            restore-keys: bazel-cache-${{env.cache-name}}-
+            # Avoid downloading Bazel every time.
+            bazelisk-cache: true
+            # Store build cache per workflow.
+            disk-cache: ${{github.workflow}}
+            # Share repository cache between workflows.
+            repository-cache: true
+        - name: Check Bazelisk
+          run: bazelisk --version
         - name: Build
           run: |
-            ./$BAZEL build -c opt //...
+            bazelisk build -c opt //...
         - name: Test
           run: |
-            ./$BAZEL test -c opt --test_size_filters=-enormous --test_output=errors //...
-        - name: Save new cache for main
-          if: github.ref == 'refs/heads/main'
-          uses: actions/cache/save@v5
-          with:
-            path: ${{env.cache-path}}
-            key: bazel-cache-${{env.cache-name}}-${{github.run_id}}
+            bazelisk test -c opt --test_size_filters=-enormous --test_output=errors //...
