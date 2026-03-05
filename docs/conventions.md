@@ -9,7 +9,7 @@ coding style.
     `NumStates()` - 1.
 2.  A `StateIterator` returns `StateIds` in numerical order.
 3.  A user may not request info about a `StateId` **s** from an FST unless the
-    FST has already returned a `StateId` **t** $ \ge $ **s** (e.g. from
+    FST has already returned a `StateId` **t** $\ge$ **s** (e.g. from
     `Start()`, `NumStates()`, `StateIterator`, or
     `ArcIterator->Value().nextstate`).
 4.  The empty machine (no states) has start state `kNoStateId`; a non-empty
