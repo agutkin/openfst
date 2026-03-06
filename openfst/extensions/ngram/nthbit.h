@@ -23,7 +23,7 @@
 
 #if defined(__aarch64__)
 #include <arm_neon.h>
-#endif
+#endif  // __aarch64__
 
 #include "absl/log/check.h"
 
@@ -142,7 +142,7 @@ inline int nth_bit(const uint64_t v, const uint32_t r) {
   s = s - ((s >> 1) & (0x5 * kOnesStep4));
   s = (s & (0x3 * kOnesStep4)) + ((s >> 2) & (0x3 * kOnesStep4));
   s = (s + (s >> 4)) & (0xF * kOnesStep8);
-#endif
+#endif  // __aarch64__
   // s now contains the byte-wise popcounts of v.
 
   // byte_sums contains partial sums of the byte-wise popcounts.
@@ -171,7 +171,7 @@ inline int nth_bit(const uint64_t v, const uint32_t r) {
 
 #error Unrecognized architecture size
 
-#endif
+#endif  // SIZE_MAX == UINT32_MAX
 
 #endif  // !defined(__BMI2__)
 
