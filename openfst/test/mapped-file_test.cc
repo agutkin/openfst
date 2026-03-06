@@ -43,6 +43,10 @@
 #include "openfst/compat/file_path.h"
 #endif  // _WIN32 || O_TMPFILE
 
+#if defined(_WIN32) && !defined(PATH_MAX)
+#define PATH_MAX MAX_PATH
+#endif  // _WIN32 && !PATH_MAX
+
 namespace fst {
 namespace {
 // Calls ::close on fd on destruction.
