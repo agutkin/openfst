@@ -35,7 +35,7 @@
 #if defined(_MSC_VER)
 // https://learn.microsoft.com/en-us/cpp/intrinsics/popcnt16-popcnt-popcnt64?view=msvc-170
 #define __POP_COUNT64 __popcnt64
-https://learn.microsoft.com/en-us/cpp/intrinsics/lzcnt16-lzcnt-lzcnt64?view=msvc-170
+// https://learn.microsoft.com/en-us/cpp/intrinsics/lzcnt16-lzcnt-lzcnt64?view=msvc-170
 #define __COUNT_LEAD_ZEROS64 __lzcnt64
 #else
 // https://gcc.gnu.org/onlinedocs/gcc/Bit-Operation-Builtins.html
