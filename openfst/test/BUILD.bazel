@@ -17,6 +17,37 @@ load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
 package(default_visibility = ["//visibility:public"])
 
+cc_test(
+    name = "equivalent_test",
+    size = "medium",
+    srcs = ["equivalent_test.cc"],
+    data = [
+        ":testdata/equivalent/e1.fst",
+        ":testdata/equivalent/e10.fst",
+        ":testdata/equivalent/e11.fst",
+        ":testdata/equivalent/e12.fst",
+        ":testdata/equivalent/e2.fst",
+        ":testdata/equivalent/e3.fst",
+        ":testdata/equivalent/e4.fst",
+        ":testdata/equivalent/e5.fst",
+        ":testdata/equivalent/e6.fst",
+        ":testdata/equivalent/e7.fst",
+        ":testdata/equivalent/e8.fst",
+        ":testdata/equivalent/e9.fst",
+    ],
+    linkstatic = True,
+    deps = [
+        "//openfst/compat:compat_memory",
+        "//openfst/compat:file_path",
+        "//openfst/lib",
+        "//openfst/lib:symbol-table",
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/memory",
+        "@com_google_absl//absl/strings",
+        "@com_google_googletest//:gtest_main",
+    ],
+)
+
 exports_files([
     "testdata/arc-map/m1.fst",
     "testdata/arc-map/m10.fst",
