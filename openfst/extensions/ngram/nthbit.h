@@ -24,6 +24,9 @@
 #if defined(__aarch64__)
 #include <arm_neon.h>
 #endif  // __aarch64__
+#if defined(_MSC_VER)
+#include <intrin.h>
+#endif  // _MSC_VER
 
 #include "absl/log/check.h"
 
@@ -32,13 +35,19 @@
 
 #include <immintrin.h>
 
+#if defined(_MSC_VER)
+#define __POP_COUNT64 __popcnt64
+#else
+#define __POP_COUNT64 __builtin_popcountll
+#endif  // _MSC_VER
+
 namespace fst {
 // Returns the position (0-63) of the r-th 1 bit in v.
 // 0 <= r < CountOnes(v) <= 64. Therefore, v must not be 0.
 inline int nth_bit(uint64_t v, uint32_t r) {
   DCHECK_NE(v, 0);
   DCHECK_LE(0, r);
-  DCHECK_LT(r, __builtin_popcountll(v));
+  DCHECK_LT(r, __POP_COUNT64(v));
 
   // PDEP example from https://stackoverflow.com/a/27453505
   // __builtin_ctzll is UB for 0, but the conditions above ensure that can't
@@ -130,7 +139,7 @@ inline int nth_bit(const uint64_t v, const uint32_t r) {
 
   DCHECK_NE(v, 0);
   DCHECK_LE(0, r);
-  DCHECK_LT(r, __builtin_popcountll(v));
+  DCHECK_LT(r, __POP_COUNT64(v));
 
 #if defined(__aarch64__)
   // Use the ARM64 CNT instruction to compute a byte-wise popcount.
