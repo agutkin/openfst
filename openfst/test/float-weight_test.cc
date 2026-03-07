@@ -77,9 +77,14 @@ TYPED_TEST(FloatWeightTest, TypeTraits) { this->BehavesAlmostLikePOD(); }
 // version, ordering of expressions, and expression values.
 #define DYNAMIC_ASSERT(condition, message) EXPECT_TRUE(condition) << message
 
+#if !defined(_WIN32) || !defined(_MSC_VER)
 #define STATIC_ASSERT(condition, message) \
   static_assert(condition, message);      \
   EXPECT_TRUE(condition) << message
+#else
+// MSVC compiler complains about most compile-time assertions.
+#define STATIC_ASSERT DYNAMIC_ASSERT
+#endif  // _WIN32
 
 template <class W>
 void TestBasicIdentities() {
