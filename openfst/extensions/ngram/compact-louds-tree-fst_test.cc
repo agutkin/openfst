@@ -16,8 +16,8 @@
 
 #include <algorithm>
 #include <cstddef>
-#include <cstdlib>
 #include <memory>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -42,6 +42,8 @@
 namespace fst {
 namespace {
 
+constexpr int kSeed = 100;
+
 std::string Testfile() {
   return JoinPath(
       std::string("."),
@@ -49,12 +51,13 @@ std::string Testfile() {
 }
 
 std::vector<std::vector<StdArc::Label>> GetWords(size_t n, size_t sigma) {
-  unsigned int seed = 100;
+  std::mt19937 state(kSeed);
+  std::uniform_int_distribution<int> dist(0, RAND_MAX);
   std::vector<std::vector<StdArc::Label>> output;
   for (int i = 0; i < n; i++) {
     std::vector<StdArc::Label> tempvector;
     for (int j = 0; j < rand_r(&seed) % 12 + 1; j++) {
-      tempvector.push_back(rand_r(&seed) % sigma + 1);
+      tempvector.push_back(dist(state) % sigma + 1);
     }
     output.push_back(tempvector);
   }
