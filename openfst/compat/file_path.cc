@@ -46,12 +46,7 @@ std::pair<std::string_view, std::string_view> SplitPath(std::string_view path) {
 }
 
 std::string Normalize(std::string_view path) {
-#if defined(_WIN32)
-  // Don't mix separators on Windows for consistency.
-  return absl::StrReplaceAll(path, {{"\\", kPathSeparator}});
-#else
   return std::string(path);
-#endif  // _WIN32
 }
 
 }  // namespace
