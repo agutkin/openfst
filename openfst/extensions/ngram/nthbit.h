@@ -26,6 +26,7 @@
 #endif  // __aarch64__
 #if defined(_MSC_VER)
 #include <intrin.h>
+#include <nmmintrin.h>
 #endif  // _MSC_VER
 
 #include "absl/log/check.h"
@@ -35,7 +36,8 @@
 // and `std::countl_zero`).
 #if defined(_MSC_VER)
 // https://learn.microsoft.com/en-us/cpp/intrinsics/popcnt16-popcnt-popcnt64?view=msvc-170
-#define __POP_COUNT64 __popcnt64
+#define __POP_COUNT64 _mm_popcnt_u64
+//__popcnt64
 // https://learn.microsoft.com/en-us/cpp/intrinsics/lzcnt16-lzcnt-lzcnt64?view=msvc-170
 #define __COUNT_LZEROS64 __lzcnt64
 #else
