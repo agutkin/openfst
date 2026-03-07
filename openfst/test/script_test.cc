@@ -292,7 +292,7 @@ TEST_F(ClassTest, EncodeMapperClassOperations) {
 int main(int argc, char** argv) {
   // Makes FSTERROR death tests actually fatal.
   absl::SetFlag(&FLAGS_fst_error_fatal, true);
-  fst::InitOpenFst(argv[0], &argc, &argv, true);
   ::testing::InitGoogleTest(&argc, argv);
+  fst::InitOpenFst(argv[0], &argc, &argv, true);
   return RUN_ALL_TESTS();
 }
