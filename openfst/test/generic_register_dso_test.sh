@@ -28,9 +28,12 @@ source "$FST/bin/setup.sh"
 if [[ "$(uname)" == "Darwin" ]]; then
   DYLD_LIBRARY_PATH="${DYLD_LIBRARY_PATH:-}:$LIB"
   export DYLD_LIBRARY_PATH
-else
+elif [[ "$(uname)" == "Linux" ]]; then
   LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}:$LIB"
   export LD_LIBRARY_PATH
+else
+  PATH="${PATH:-}:$LIB"
+  export PATH
 fi
 
 "$LIB"/generic_register_dso_test_helper
