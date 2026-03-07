@@ -33,9 +33,14 @@
 // Portable bit manipulation macros. This can be replaced when we migrate to
 // C++20, e.g., `std::popcount`.
 #if defined(_MSC_VER)
+// https://learn.microsoft.com/en-us/cpp/intrinsics/popcnt16-popcnt-popcnt64?view=msvc-170
 #define __POP_COUNT64 __popcnt64
+https://learn.microsoft.com/en-us/cpp/intrinsics/lzcnt16-lzcnt-lzcnt64?view=msvc-170
+#define __COUNT_LEAD_ZEROS64 __lzcnt64
 #else
+// https://gcc.gnu.org/onlinedocs/gcc/Bit-Operation-Builtins.html
 #define __POP_COUNT64 __builtin_popcountll
+#define __COUNT_LEAD_ZEROS64 __builtin_ctzll
 #endif  // _MSC_VER
 
 #if defined(__BMI2__)  // Intel Bit Manipulation Instruction Set 2
@@ -54,7 +59,7 @@ inline int nth_bit(uint64_t v, uint32_t r) {
   // PDEP example from https://stackoverflow.com/a/27453505
   // __builtin_ctzll is UB for 0, but the conditions above ensure that can't
   // happen.
-  return __builtin_ctzll(_pdep_u64(uint64_t{1} << r, v));
+  return __COUNT_LEAD_ZEROS64(_pdep_u64(uint64_t{1} << r, v));
 }
 }  // namespace fst
 
@@ -168,7 +173,7 @@ inline int nth_bit(const uint64_t v, const uint32_t r) {
   // The first bit set is the high bit in the byte, so
   // num_trailing_zeros == 8 * byte_nr + 7 and the byte number is the
   // number of trailing zeros divided by 8.
-  const int byte_nr = __builtin_ctzll(b) >> 3;
+  const int byte_nr = __COUNT_LEAD_ZEROS64(b) >> 3;
   const int shift = byte_nr << 3;
   // The top byte contains the whole-word popcount; we never need that.
   byte_sums <<= 8;

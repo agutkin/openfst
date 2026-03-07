@@ -210,7 +210,7 @@ std::pair<size_t, size_t> BitmapIndex::Select0s(size_t bit_index) const {
   // If this is 0, then the next zero is not in the same word.
   if (masked_inv_word != 0) {
     // We can't ctz on 0, but we already checked that.
-    const int next_nth = __builtin_ctzll(masked_inv_word);
+    const int next_nth = __COUNT_LEAD_ZEROS64(masked_inv_word);
     return {kStorageBitSize * word_index + nth,
             kStorageBitSize * word_index + next_nth};
   } else {
