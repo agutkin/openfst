@@ -34,7 +34,7 @@ std::string JoinPathRespectAbsolute(std::string_view path1,
 
 // Returns the part of the path after the final "/".  If there is no
 // "/" in the path, the result is the same as the input.
-std::string_view Basename(std::string_view path);
+std::string Basename(std::string_view path);
 
 }  // namespace fst
 
