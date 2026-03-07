@@ -65,6 +65,8 @@ build:macos --cxxopt=-mmacos-version-min=10.15
 # Options for Windows.
 # ------------------------------------------------------------------------------
 
+startup --windows_enable_symlinks
+
 build:windows --cxxopt=/std:c++17
 
 # Force compiler to (1) read the sources in UTF8 instead of Windows system's
