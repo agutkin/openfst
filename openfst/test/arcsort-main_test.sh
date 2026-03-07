@@ -36,25 +36,25 @@ source "$BIN"/setup.sh
 rm -f "$TST"/a1.fst
 
 # stdin("-") file
-"$BIN"/fstarcsort -sort_type=ilabel - "$TST"/a1.fst <"$DAT"/a2.fst
+"$BIN"/fstarcsort -sort_type=ilabel - "$TST"/a1.fst < "$DAT"/a2.fst
 "$BIN"/fstequal -v=1 "$DAT"/a1.fst "$TST"/a1.fst
 
 rm -f "$TST"/a1.fst
 
 # file stdout
-"$BIN"/fstarcsort -sort_type=ilabel "$DAT"/a2.fst >"$TST"/a1.fst
+"$BIN"/fstarcsort -sort_type=ilabel "$DAT"/a2.fst > "$TST"/a1.fst
 "$BIN"/fstequal -v=1 "$DAT"/a1.fst "$TST"/a1.fst
 
 rm -f "$TST"/a1.fst
 
 # # stdin("") stdout
-"$BIN"/fstarcsort -sort_type=ilabel >"$TST"/a1.fst <"$DAT"/a2.fst
+"$BIN"/fstarcsort -sort_type=ilabel > "$TST"/a1.fst < "$DAT"/a2.fst
 "$BIN"/fstequal -v=1 "$DAT"/a1.fst "$TST"/a1.fst
 
 rm -f "$TST"/a1.fst
 
 # stdin("-") stdout
-"$BIN"/fstarcsort -sort_type=ilabel - >"$TST"/a1.fst <"$DAT"/a2.fst
+"$BIN"/fstarcsort -sort_type=ilabel - > "$TST"/a1.fst < "$DAT"/a2.fst
 "$BIN"/fstequal -v=1 "$DAT"/a1.fst "$TST"/a1.fst
 
 rm -f "$TST"/a2.fst
