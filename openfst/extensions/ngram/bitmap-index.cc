@@ -52,7 +52,7 @@ size_t BitmapIndex::Rank1(size_t end) const {
   // TODO: better with or without special case, and does
   // this depend on whether there's a popcnt instruction?
   if (bit_index == 0) return sum;  // Entire answer is in the index.
-  return sum + __builtin_popcountll(bits_[end_word] & kLowBitsMasks[bit_index]);
+  return sum + __POP_COUNT64(bits_[end_word] & kLowBitsMasks[bit_index]);
 }
 
 size_t BitmapIndex::Select1(size_t bit_index) const {
@@ -269,10 +269,10 @@ void BitmapIndex::BuildIndex(const uint64_t* bits, size_t num_bits,
     };
 
     const int word_ones_count[8] = {
-        __builtin_popcountll(word[0]), __builtin_popcountll(word[1]),
-        __builtin_popcountll(word[2]), __builtin_popcountll(word[3]),
-        __builtin_popcountll(word[4]), __builtin_popcountll(word[5]),
-        __builtin_popcountll(word[6]), __builtin_popcountll(word[7]),
+        __POP_COUNT64(word[0]), __POP_COUNT64(word[1]),
+        __POP_COUNT64(word[2]), __POP_COUNT64(word[3]),
+        __POP_COUNT64(word[4]), __POP_COUNT64(word[5]),
+        __POP_COUNT64(word[6]), __POP_COUNT64(word[7]),
     };
 
     auto& rank_index_entry = rank_index_[word_index / kUnitsPerRankIndexEntry];

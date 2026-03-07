@@ -30,16 +30,18 @@
 
 #include "absl/log/check.h"
 
-#if defined(__BMI2__)  // Intel Bit Manipulation Instruction Set 2
-// PDEP requires BMI2; this is present starting with Haswell.
-
-#include <immintrin.h>
-
+// Portable bit manipulation macros. This can be replaced when we migrate to
+// C++20, e.g., `std::popcount`.
 #if defined(_MSC_VER)
 #define __POP_COUNT64 __popcnt64
 #else
 #define __POP_COUNT64 __builtin_popcountll
 #endif  // _MSC_VER
+
+#if defined(__BMI2__)  // Intel Bit Manipulation Instruction Set 2
+// PDEP requires BMI2; this is present starting with Haswell.
+
+#include <immintrin.h>
 
 namespace fst {
 // Returns the position (0-63) of the r-th 1 bit in v.
